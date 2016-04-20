@@ -11,6 +11,7 @@
 
 function DcMediaRecorder($http, UserInfo) {
 
+    var dcMediaRecorder = this;
     // TODO:  Return promise, rather than callbacks.
     this.startVideoCalibration = function(succCb) {
         console.log("(D):  Starting Video Calibration process.");
@@ -35,10 +36,11 @@ function DcMediaRecorder($http, UserInfo) {
     
     this.onDataAvailable = function(blob) {
         console.log("(D):  We have data available!");
+        dcMediaRecorder.vidUrl = URL.createObjectURL(blob);
         var aref = document.createElement('a');
         aref.target = '_blank';
         aref.innerHTML = 'Open recorded video No. ';
-        aref.href = URL.createObjectURL(blob);
+        aref.href = dcMediaRecorder.vidUrl;
 
         videosContainer.appendChild(aref);
         videosContainer.appendChild(document.createElement('hr'));
@@ -50,7 +52,6 @@ function DcMediaRecorder($http, UserInfo) {
 //        })
     }
 
-    
     var mediaConstraints = {
         video: true,
         audio: true
@@ -60,7 +61,6 @@ function DcMediaRecorder($http, UserInfo) {
     this.vHEIGHT = 380;
     var index = 0;
     var videosContainer;
-    var dcMediaRecorder = this;
 
     function onMediaSuccess(stream) {
         console.log("(D):  onMediaSuccess called!");

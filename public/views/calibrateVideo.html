@@ -7,25 +7,27 @@
         <br>
         We are now beginning the test. Please follow the instructions on the screen.
         <br>
+        For your reference, the instructions are listed below.
+        <br>
         <br>
         <div layout="row">
-        <div flex="5"></div>
-        <div class="md-body-2">
-            <div class="md-headline">Instructions:</div>
-            You are being recorded.<br>
-            You will watch multiple 30 second clips in a row.<br>
-            Please continue watching until the videos stop.  <br>
-            The video will be saved automatically.
-        </div>
+            <div flex="5"></div>
+            <div class="md-body-2">
+                <div class="md-headline">Instructions:</div>
+                You are being recorded.<br>
+                You will watch multiple 30 second clips in a row.<br>
+                Please continue watching until the videos stop.  <br>
+                The video will be saved automatically.
+            </div>
         </div>
         <br>
         Note: We need to test the facilities of the test before we begin.<br>
         You may be asked to enable your web-cam.
     </div>
+    
+    <md-button ng-init="showCalibBtn = true" ng-hide="!showCalibBtn" class="md-raised md-primary" ng-click="showCalibBtn = !showCalibBtn; startVideo()">Start Calibration</md-button>
 
-    <md-button ng-init="showBtn = true" ng-hide="!showBtn" class="md-raised md-primary" ng-click="showBtn = !showBtn; startVideo()">Start Calibration</md-button>
-
-    <div layout="column" id="videoContainer" ng-show="!showBtn">
+    <div layout="column" id="videoContainer" ng-show="!showCalibBtn">
         <video id="calibrateVideo" ></video>
     <!--    <canvas id="calibrateCanvas"></canvas>-->
 

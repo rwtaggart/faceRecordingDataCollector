@@ -5,7 +5,12 @@
  */
  
  dcApp = angular.module('iMotDataCollector')
- .config(function($stateProvider, $urlRouterProvider) {
+ .config(function($locationProvider, $stateProvider, $urlRouterProvider) {
+//    $locationProvider.html5Mode({
+//        enabled: true,
+//        requireBase: false
+//    });
+    
     $urlRouterProvider.otherwise('/enter');
     $stateProvider
     .state('enter', {
@@ -61,5 +66,13 @@
     .state('uploadOneDrive', {
         url: '/uploadVideo',
         templateUrl: 'views/OneDriveUpload.html'
+    })
+    .state('downloadVideo', {
+        url: '/downloadVideo',
+        templateUrl: 'views/downloadVideo.html'
+    })
+    .state('dropBoxAuth', {
+        url: '/dbAuth',
+        templateUrl: 'views/dropBoxAuth.html'
     })
 })

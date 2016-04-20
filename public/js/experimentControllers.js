@@ -93,7 +93,7 @@ var iMotDataApp = angular.module("iMotDataCollector")
     $scope.stopAndSaveRecord = function() {
         console.log("(D):  Stopping and saving the recordings.");
         DcMediaRecorder.stopAndSaveRecording()
-        $state.go('uploadOneDrive')
+        $state.go('downloadVideo')
     }
 })
 .controller('experimentListCtrl', function($scope, $state) {

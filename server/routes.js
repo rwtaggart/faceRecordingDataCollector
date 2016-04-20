@@ -1,7 +1,11 @@
+"use strict" 
 /** 
  *  Routes.js is responsible for the routes served by this web application. 
  */
- 
+ var crypto = require('crypto')
+ var url    = require('url')
+ var fs     = require('fs')
+ var request = require('request')
  var express = require('express');
  var router  = express.Router();
  
@@ -97,8 +101,8 @@
                 redirect_uri: generateRedirectURI(req)
             },
             auth: {
-                user: w9ucn5vs30ivg2a,
-                pass: ljh7bgv5up0extm
+                user: 'w9ucn5vs30ivg2a',
+                pass: 'ljh7bgv5up0extm'
             }
         }, function (error, response, body) {
             var data = JSON.parse(body);
@@ -118,32 +122,87 @@
     })
     
     router.get('/upload/token', function(req, res) {
+        console.log("(D):  we're in the token function");
         var csrfToken = generateCSRFToken();
         res.cookie('csrf', csrfToken);
+        
+        var redirect = generateRedirectURI(req);
+        console.log("(D):  redirect='" + redirect + "'")
         res.redirect(url.format({
             protocol: 'https',
             hostname: 'www.dropbox.com',
             pathname: '1/oauth2/authorize',
             query: {
-                client_id: APP_KEY,//App key of dropbox api
+                client_id: 'w9ucn5vs30ivg2a',//App key of dropbox api
                 response_type: 'code',
                 state: csrfToken,
-                redirect_uri: generateRedirectURI(req)
+                redirect_uri: redirect
             }
         }));
     })
-}
-
-function generateRedirectURI(req) {
-    return url.format({
-        protocol: req.protocol,
-        host: req.headers.host,
-        pathname: app.path() + '/upload/success'
+    
+    var serverpath
+    
+    app.get('/upload/file', function (req, res) {
+        serverpath = "/test/test1.txt";//file to be save at what path in server
+        var localpath = '/Users/richard/Documents/Grad\ School/CS692/testUpload.txt';//path of the file which is to be uploaded
+        if (req.query.error) {
+            return res.send('ERROR ' + req.query.error + ': ' + req.query.error_description);
+        }
+        fs.readFile(localpath,'utf8', function read(err, data) {
+            if (err) {
+                throw err;
+            }
+            var content = data;
+            console.log(content); 
+            fileupload(req.session.token,content, res);
+        });
     });
+
+    function fileupload(token,content, res){
+        request.put('https://api-content.dropbox.com/1/files_put/auto/'+serverpath+'?overwrite=true', {
+            headers: { Authorization: 'Bearer ' + token ,  'Content-Type': 'text/plain'},
+            body:content
+        }, function optionalCallback (err, httpResponse, bodymsg) {
+            var json = JSON.parse(bodymsg)
+            if (err) {
+                console.error("(E): ", err);
+                res.json({status: "ERR", upload: "Failed", err: err})
+            }
+            else
+            { 
+                if (!!json.error) {
+                    console.error("(E): ", json.error);
+                    res.json({status: "ERR", upload: "Failed", err: json.error})
+                } else {
+                    console.log("(D): ", json);
+                    res.json({status: "OK", upload: "Success", msg: json})
+                }
+            }
+        });
+    }
+    
+    function generateRedirectURI(req) {
+        var prot;
+        if (process.env.DEV)
+            prot = req.protocol
+        else
+            prot = 'https'
+        
+        var pathSuffix = '/upload/success';
+//        var pathSuffix = '/uploadVideoSuccess'
+        
+        return url.format({
+            protocol: prot,
+            host: req.headers.host,
+            pathname: app.path() + pathSuffix
+        });
+    }
+
+    function generateCSRFToken() {
+        return crypto.randomBytes(18).toString('base64');
+    //        .replace(/\//g, '-').replace(/+/g, '_');
+    }
 }
 
-function generateCSRFToken() {
-    return crypto.randomBytes(18).toString('base64')
-        .replace(///g, '-').replace(/+/g, '_');
-}
 

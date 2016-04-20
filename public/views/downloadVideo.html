@@ -1,0 +1,44 @@
+<!--This view will be used to upload the video to wherever it's going-->
+<head>
+</head>
+
+<div ng-controller="downloadCtrl as c">
+  <div layout="column" layout-align="center center" md-padding flex>
+    <h1 class="md-display-2">Experiment Complete!</h1>
+    <div layout="row" layout-align="center">
+        <div flex="10"></div>
+        <div class="md-body-2" layout-align="center">
+            Thank you for participating in our experiment.<br>
+            There are a few more steps we need you to follow:
+            <ol>
+                <li>Download the video with this link: <a href="{{media.link}}">Video Link</a></li>
+                <li>Upload video to <a href="http://video.online-convert.com/convert-to-webm">this converter</a> and save on local device</li>
+                <li>Finally, upload the .mp4 video to my <a href="https://onedrive.live.com/redir?resid=7895DF865C1078BE!791&authkey=!AAV24cptgW24ivU&ithint=folder%2cmp4">One Drive</a> account</li>
+            </ol>
+            <span class="md-body-1">Note, Please just name the file your initials, or something.</span>
+            <div id="videoContainer"></div>
+        </div>
+        <div flex="10"></div>
+    </div>
+    <p class="md-body-2"></p>
+    <div layout="column">
+<!--        <input id='fileUploadControl' name="fileUploadControl" type="file" />-->
+    <!--    <button ng-click="oneDriveCtrl.launchSaveToOneDrive()">Save File</md-button>-->
+    <!--    <p>{{upload.message.id}}</p>-->
+        <br>
+<!--
+        <div ng-messages="upload.uploadStatus()" role="alert">
+            <div ng-message="waiting">We are waiting to begin upload of the data.</div>
+            <div ng-message="inprogress">The upload is in progress. Please wait.</div>
+            <div ng-message="complete">The upload has completed.</div>
+            <div ng-message="error" style="color: red">There was an error during upload. {{upload.message.txt}}</div>
+        </div>
+-->
+        <div ng-if="upload.error" style="color: red">Upload Error: {{upload.error.msg}}</div>
+        <md-progress-circular ng-if="upload.inProgress" md-mode="determinate" ng-value="upload.progress"></md-progress-circular>
+    <!--    <md-button ng-click="testHi()">Try Me!</md-button>-->
+    <!--    <md-button ng-click="c.testFnc()">No, Try Me!</md-button>-->
+<!--        <md-button ng-click="c.launchSaveToOneDrive()">Upload File</md-button>-->
+    </div>
+  </div>
+</div>
