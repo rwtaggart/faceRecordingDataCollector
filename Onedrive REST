@@ -1,0 +1,6 @@
+sample thingy
+
+https://login.live.com/oauth20_authorize.srf?client_id=CLIENT_ID&scope=SCOPES&response_type=
+    RESPONSE_TYPE&redirect_uri=REDIRECT_URL
+    
+https://login.live.com/oauth20_authorize.srf?client_id=000000004418556F&scope=wl.signin%20wl.basic&response_type=code&redirect_uri=data-collector.mybluemix.net/auth/onedrive 

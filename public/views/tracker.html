@@ -1,0 +1,166 @@
+<div>
+<head>
+<!--  <link rel="stylesheet" href="assets/demo.css">-->
+
+<!--
+  <script src="../build/tracking-min.js"></script>
+  <script src="../build/data/face-min.js"></script>
+  <script src="../../dat-gui/build/dat.gui.min.js"></script>
+  <script src="assets/stats.min.js"></script>
+-->
+  
+    <script src="/bower_components/tracking/build/tracking-min.js"></script>
+    <script src="/bower_components/tracking/build/data/face-min.js"></script>
+
+  <style>
+  video, canvas {
+    margin-left: 230px;
+    margin-top: 120px;
+    position: absolute;
+  }
+  </style>
+</head>
+  <div class="demo-title">
+    <p><a href="http://trackingjs.com" target="_parent">tracking.js</a> － get user's webcam and detect faces</p>
+  </div>
+
+  <div class="demo-frame">
+    <div class="demo-container">
+      <video id="video" width="320" height="240" preload autoplay loop muted></video>
+      <canvas id="canvas" width="320" height="240"></canvas>
+    </div>
+  </div>
+
+  <script>
+    window.onload = function() {
+      var video = document.getElementById('video');
+      var canvas = document.getElementById('canvas');
+      var context = canvas.getContext('2d');
+      var tracker = new tracking.ObjectTracker('face');
+      tracker.setInitialScale(4);
+      tracker.setStepSize(2);
+      tracker.setEdgesDensity(0.1);
+      tracking.track('#video', tracker, { camera: true });
+      tracker.on('track', function(event) {
+        context.clearRect(0, 0, canvas.width, canvas.height);
+        event.data.forEach(function(rect) {
+          context.strokeStyle = '#a64ceb';
+          context.strokeRect(rect.x, rect.y, rect.width, rect.height);
+          context.font = '11px Helvetica';
+          context.fillStyle = "#fff";
+          context.fillText('x: ' + rect.x + 'px', rect.x + rect.width + 5, rect.y + 11);
+          context.fillText('y: ' + rect.y + 'px', rect.x + rect.width + 5, rect.y + 22);
+        });
+      });
+      
+//      var gui = new dat.GUI();
+//      gui.add(tracker, 'edgesDensity', 0.1, 0.5).step(0.01);
+//      gui.add(tracker, 'initialScale', 1.0, 10.0).step(0.1);
+//      gui.add(tracker, 'stepSize', 1, 5).step(0.1);
+    };
+    
+    $scope.startVideoCalibration = function() {
+        console.log("(D):  Starting Video Calibration process.");
+        navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia || navigator.oGetUserMedia;
+        if (!navigator.getUserMedia) {
+            console.error("(E):  Couldn't find getUserMedia. Nothing works.");
+        }
+        videosContainer = document.querySelector('#videoContainer');
+        captureUserMedia(mediaConstraints, onMediaSuccess, onMediaError);
+    }
+    
+    function captureUserMedia(mediaContraints, succCb, errCb) {
+        navigator.getUserMedia(mediaConstraints, succCb, errCb);
+    }
+
+    var mediaConstraints = {
+        video: true,
+        audio: true
+    }
+    
+    const vWIDTH  = 320;
+    const vHEIGHT = 240;
+    var index = 0;
+    var videosContainer;
+
+    function onMediaSuccess(stream) {
+        console.log("(D):  onMediaSuccess called!");
+//        var video = document.createElement('video');
+        var video = document.querySelector('#video');
+
+
+        var videoWidth  = vWIDTH;
+        var videoHeight = vHEIGHT;
+
+        video = mergeProps(video, {
+            id: 'calibrateVideo',
+            controls: true,
+            muted:    true,
+            width:    videoWidth,
+            height:   videoHeight,
+            src:      URL.createObjectURL(stream)
+        });
+        video.play();
+
+//        videosContainer.appendChild(video);
+//        videosContainer.appendChild(document.createElement('hr'));
+        
+        var videoElem = document.querySelector('#video');
+        var vidRect = videoElem.getBoundingClientRect();
+        console.log("(D):  videoRectangle: " + JSON.stringify(vidRect));
+        console.log("(D):  videoRect: " + vidRect.top + ", " + vidRect.bottom + ", " + vidRect.left + ", " + vidRect.right);
+
+        mediaRecorder = new MediaStreamRecorder(stream);
+        mediaRecorder.stream = stream;
+        mediaRecorder.mimeType = 'video/webm';
+        mediaRecorder.videoWidth = videoWidth;
+        mediaRecorder.videoHeight = videoHeight;
+        mediaRecorder.ondataavailable = function(blob) {
+            var aref = document.createElement('a');
+            aref.target = '_blank';
+//            aref.innerHTML = 'Open recorded video No. ' + (index++) + ' Size: ' + bytestToSize(blob.size) + ' Time Length: ' + getTimeLength(timeInterval);
+            aref.href = URL.createObjectURL(blob);
+
+            videosContainer.appendChild(aref);
+            videosContainer.appendChild(document.createElement('hr'));
+        }
+
+//        var timeInterval = document.querySelector('#time-interval').value;
+//        if (timeInterval) timeInterval = parseInt(timeInterval);
+//        else timeInterval = 5 * 1000;
+        var timeInterval = 5 * 1000;
+
+//        mediaRecorder.start(timeInterval);
+
+//        document.querySelector('#stop-recording').disabled  = false;
+//        document.querySelector('#pause-recording').disabled = false;
+//        document.querySelector('#save-recording').dsiabled  = false;
+
+        console.log("(D):  Creating canvas object.");
+        var vcanvas = document.createElement('canvas');
+        var context = vcanvas.getContext('2d');
+
+
+        var canvasWidth  = vWIDTH;
+        var canvasHeight = vHEIGHT;
+
+        vcanvas = mergeProps(video, {
+            id: 'calibrateVideoCanvas',
+            controls: true,
+            muted:    true,
+            width:    canvasWidth,
+            height:   canvasHeight,
+            src:      URL.createObjectURL(stream),
+            style:   {
+                top: vidRect.top,
+                left: vidRect.left
+            }
+        });
+        videosContainer.appendChild(vcanvas);
+    }
+    
+    function onMediaError(err) {
+        console.error('(E):  Could not use media.', err);
+    }
+  </script>
+</div>

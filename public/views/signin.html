@@ -1,0 +1,50 @@
+<head>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css"> <!-- load bootstrap css -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"> <!-- load fontawesome -->
+</head>
+<div layout="column" ng-controller="userAccountCtrl as signInCtrl">
+    <div layout="column" layout-align="center center">
+        <p>This page is still being developed. Continue to the next page.</p>
+        <md-button ui-sref="calibrateVideo">Next Screen.</md-button>
+    </div>
+    <div class="md-inline-form">
+        <md-input-container>
+            <label>Name</label>
+            <input ng-model="user.title">
+        </md-input-container>
+        <md-input-container>
+            <label>Email</label>
+            <input ng-model="user.email" type="email">
+        </md-input-container>
+    </div>
+    <md-button aria-label="submit user" ng-click="signInCtrl.signIn()">Sign In!</md-button>
+    <div layout="row" layout-align="top center">
+        <md-card>
+            <md-card-title>
+                <md-card-title-text>
+                    <span class="md-headline">Sign In!</span>
+                </md-card-title-text>
+            </md-card-title>
+            <md-card-content layout="row" layout-align="space-between">
+                <md-card-actions layout="row" layout-align="end center">
+                    <a href="/auth/google" class="btn btn-danger"><span class="fa fa-google-plus"></span> Google</a>
+                    <md-button>Action 2</md-button>
+                </md-card-actions>
+            </md-card-content>
+
+        </md-card>
+
+        <md-card>
+            <md-card-title>
+                <md-card-title-text>
+                    <span class="md-headline">Sign Up!</span>
+                </md-card-title-text>
+            </md-card-title>
+            <md-card-actions layout="row" layout-align="end center">
+              <md-button>Action 1</md-button>
+              <md-button>Action 2</md-button>
+              <md-button>Action 3</md-button>
+            </md-card-actions>
+        </md-card>
+</div>
+</div>

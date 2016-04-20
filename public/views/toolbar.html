@@ -1,0 +1,31 @@
+<!-- This is the toolbar. -->
+<md-toolbar layout="row" layout-align="start center" ng-controller="toolbarController as tbctrl" ng-cloak>
+  <div class="md-toolbar-tools">
+    <md-button class="md-icon-button" aria-label="Home" ng-click="tbctrl.goHome()">
+        <i class="material-icons md-36">home</i>
+    </md-button>
+    <md-menu>
+        <md-button aria-label="Nav Menu" class="md-icon-button" ng-click="tbctrl.openMenu($mdOpenMenu, $event)">
+            <i class="material-icons md-36">menu</i>
+        </md-button>
+
+        <md-menu-content width="4">
+            <md-subheader class="md-accent">Site Nav. Menu:</md-subheader>
+            <div ng-repeat="state in tbctrl.populateNavMenu()">
+            <md-menu-item >
+                <md-button class="md-primary" ng-click="tbctrl.navTo(state)" >
+                    <i class="material-icons blue600">chevron_right</i>
+                    {{ state.name }}
+                </md-button>
+            </md-menu-item>
+            </div>
+        </md-menu-content>
+
+    </md-menu>
+    <div class="md-title">&nbsp;iMotions Data Collector</div>
+    <span flex></span>
+    <md-button aria-label="Sign In" class="md-icon-button" ng-click="tbctrl.goSignIn()">
+        <i class="material-icons md-36">person</i>
+    </md-button>
+  </div>
+</md-toolbar>

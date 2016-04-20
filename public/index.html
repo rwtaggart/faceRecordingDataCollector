@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <title>iMotions Data Collection</title>
+    
+    <script src="/bower_components/angular/angular.min.js"></script>
+    <script src="/bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+    <script src="/bower_components/angular-messages/angular-messages.min.js"></script>
+    
+    <script src="/controllers/iMotDataCollector.js"></script>
+    <script src="/controllers/dcRoutes.js"></script>
+    <script src="/js/userService.js"></script>
+    <script src="/js/dcServices.js"></script>
+    <script src="/js/experimentControllers.js"></script>
+    <script src="/js/questionaireCtrl.js"></script>
+    <script src="/js/oneDriveCtrl.js"></script>
+
+    
+    <script src="/bower_components/angular-animate/angular-animate.js" type="text/javascript" ></script>
+    <script src="/bower_components/angular-aria/angular-aria.js" type="text/javascript" ></script>
+    <script src="/bower_components/angular-material/angular-material.js" type="text/javascript" ></script>
+    <script src="/bower_components/tracking/build/tracking-min.js"></script>
+    <script src="/bower_components/tracking/build/data/face-min.js"></script>
+
+    <script src="https://cdn.webrtc-experiment.com/MediaStreamRecorder.js"></script>
+    
+    <script src="/bower_components/d3/d3.js"></script>
+    <script src="/bower_components/nvd3/build/nv.d3.js"></script> <!-- or use another assembly -->
+    <script src="/bower_components/angular-nvd3/dist/angular-nvd3.js"></script>
+    <link rel="stylesheet" href="/bower_components/nvd3/build/nv.d3.css">
+
+<!--
+    <script id="ytube" src='js/youtube.js'></script>
+    <script src="js/userMedia.js"></script>
+-->
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    
+    <!-- for Edige/FF/Chrome/Opera/etc. getUserMedia support -->
+    <script src="https://cdn.rawgit.com/webrtc/adapter/master/adapter.js"></script>
+    <link rel="stylesheet" href="css/dataColl.css" />
+    <link href="./bower_components/angular-material/angular-material.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+        
+    <script src="https://www.youtube.com/player_api"></script> <!-- Source the Youtube player thingy. TODO: Figure out how to move out of here. -->
+    <script type="text/javascript" src="https://js.live.net/v7.0/OneDrive.js"></script>
+
+    <script>
+        function onYouTubePlayerAPIReady() {
+            console.log("(D):  API ready.");
+        }
+    </script>
+    <style>
+        .material-icons.orange600 { color: #FB8C00; }
+        .material-icons.blue600 { color: #039be5; }
+        .material-icons.red600 { color: #E53935; }
+        .material-icons.purple600 { color: #5E35B1; }
+        
+        .material-icons.md-18 { font-size: 18px; }
+        .material-icons.md-24 { font-size: 24px; }
+        .material-icons.md-36 { font-size: 36px; }
+        .material-icons.md-48 { font-size: 48px; }
+    </style>
+    </head>
+    
+    <body ng-app="iMotDataCollector">
+    <md-toolbar layout="row" layout-align="start center" ng-controller="toolbarController as tbctrl" ng-cloak>
+      <div class="md-toolbar-tools">
+        <md-button class="md-icon-button" aria-label="Home" ng-click="tbctrl.goHome()">
+            <i class="material-icons md-36">home</i>
+        </md-button>
+        <md-menu>
+            <md-button aria-label="Nav Menu" class="md-icon-button" ng-click="tbctrl.openMenu($mdOpenMenu, $event)">
+                <i class="material-icons md-36">menu</i>
+            </md-button>
+
+            <md-menu-content width="4">
+                <md-subheader class="md-accent">Site Nav. Menu:</md-subheader>
+                <div ng-repeat="state in tbctrl.populateNavMenu()">
+                <md-menu-item >
+                    <md-button class="md-primary" ng-click="tbctrl.navTo(state)" >
+                        <i class="material-icons blue600">chevron_right</i>
+                        {{ state.name }}
+                    </md-button>
+                </md-menu-item>
+                </div>
+            </md-menu-content>
+
+        </md-menu>
+        <div class="md-title">&nbsp;iMotions Data Collector</div>
+        <span flex></span>
+        <md-button aria-label="Sign In" class="md-icon-button" ng-click="tbctrl.goSignIn()">
+            <i class="material-icons md-36">person</i>
+        </md-button>
+      </div>
+    </md-toolbar>
+    <div layout="row">
+        <md-sidenav md-is-locked-open="true" class="md-whiteframe-z2" ng-if=" ">
+            <div ng-controller="experimentListCtrl">
+            <md-list class="md-dense" flex>
+            <md-subheader class="md-no-sticky">Progress in Experiment</md-subheader>
+            <md-list-item class="md-3-line" ng-repeat="item in experimentSteps" ng-click="null">
+              <i class="material-icons blue600" ng-if="item.isDone">check_circle</i>
+              <i class="material-icons blue600" ng-if="!item.isDone && !item.isProcessing">donut_large</i>
+              <i class="material-icons purple600" ng-if="item.isProcessing">play_circle_filled</i>
+              &nbsp;&nbsp;
+
+              <div class="md-list-item-text" layout="column">
+                <h3>{{ item.name }}</h3>
+              </div>
+            </md-list-item>
+            </md-list>
+            </div>
+        </md-sidenav>
+        <md-content flex layout="row" layout-align="center center" ng-controller="iMotDataCont">
+            <div id="content" ui-view></div>
+        </md-content>
+    </div>
+    </body>
+</html>

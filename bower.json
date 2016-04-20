@@ -1,0 +1,26 @@
+{
+  "name": "datacollector",
+  "description": "This service will be used to display video and record the response to that video.",
+  "main": "server.js",
+  "authors": [
+    "RW Taggart"
+  ],
+  "license": "MIT",
+  "moduleType": [],
+  "homepage": "index.html",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "webcam": "webcam-directive#^3.1.1",
+    "angular-ui-router": "ui-router#^0.2.18",
+    "angular": "^1.5.2",
+    "tracking": "tracking.js#^1.1.2",
+    "angular-material": "^1.0.6",
+    "angular-nvd3": "^1.0.6"
+  }
+}

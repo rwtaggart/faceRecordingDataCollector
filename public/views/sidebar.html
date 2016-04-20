@@ -1,0 +1,17 @@
+<md-sidenav md-is-locked-open="true" class="md-whiteframe-z2" >
+    <div ng-controller="experimentListCtrl">
+    <md-list class="md-dense" flex>
+    <md-subheader class="md-no-sticky">Progress in Experiment</md-subheader>
+    <md-list-item class="md-3-line" ng-repeat="item in experimentSteps" ng-click="null">
+      <i class="material-icons blue600" ng-if="item.isDone">check_circle</i>
+      <i class="material-icons blue600" ng-if="!item.isDone && !item.isProcessing">donut_large</i>
+      <i class="material-icons purple600" ng-if="item.isProcessing">play_circle_filled</i>
+      &nbsp;&nbsp;
+
+      <div class="md-list-item-text" layout="column">
+        <h3>{{ item.name }}</h3>
+      </div>
+    </md-list-item>
+    </md-list>
+    </div>
+</md-sidenav>
