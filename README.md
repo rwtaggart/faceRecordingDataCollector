@@ -1,9 +1,6 @@
 # iMotionsDataCollector
 iMotions remote video and stimulus data collection platform
 
-# Node.js Starter Overview
-
-The Node.js Starter demonstrates a simple, reusable Node.js web application based on the Express framework.
 
 ## Run the app locally
 
