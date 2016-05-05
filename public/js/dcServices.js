@@ -82,9 +82,9 @@ function DcMediaRecorder($http, UserInfo) {
 //        if (timeInterval) timeInterval = parseInt(timeInterval);
 //        else timeInterval = 5 * 1000;
 //        var timeInterval = 5 * 1000;
-        var timeInterval = 5 * 60 * 1000;
+        var timeInterval = 10 * 60 * 1000;
 
-        mediaRecorder.start(timeInterval);
+        mediaRecorder.start();
 
 //        document.querySelector('#stop-recording').disabled  = false;
 //        document.querySelector('#pause-recording').disabled = false;
@@ -157,11 +157,40 @@ function DcStimuliPlayer(youtubeVideoList) {
     }
 
     var done = false;
+    var numVids = 0;
+    
+    var timeout = function() {
+        setTimeout(function() {
+            dcStimuli.player.nextVideo();
+            clearTimeout();
+            console.log(numVids);
+            numVids = numVids + 1;
+            if (numVids <= 5) {
+                timeout();
+                dcStimuli.player.seekTo(10);
+            }
+            else {
+                dcStimuli.player.stopVideo()
+            }
+        }, 40 * 1000);
+    }
 
     function onPlayerStateChange(event) {
+
         if (event.data == YT.PlayerState.PLAYING && !done) {
-            setTimeout(function() {dcStimuli.player.nextVideo()}, 30 * 1000);
+            console.log("(D):  Player playing & not done")
             done = true;
+            timeout()
+        }
+        
+        if (event.data ==YT.PlayerState.ENDED) {
+            console.log("(D):  Player ended video")
+            done = false;
+        }
+        
+        if (event.data == YT.PlayerState.CUED) {
+            console.log("(D):  Player cued video. numVids=" + numVids)
+            numVids = numVids + 1;
         }
     }
 

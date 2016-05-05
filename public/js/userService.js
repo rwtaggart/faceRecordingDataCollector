@@ -7,6 +7,9 @@
 
 function UserInfo() {
     var user = {};
+    this.config = {}
+    this.config.debug = false;
+    
     this.participantId = function() {
         return user.pId;
     }

@@ -16,6 +16,7 @@
     <script src="/js/oneDriveCtrl.js"></script>
     <script src="/js/dropBoxAuthCtrl.js"></script>
     <script src="/js/downloadVideoCtrl.js"></script>
+    <script src="/js/analyzeDataCtrl.js"></script>
 
     
     <script src="/bower_components/angular-animate/angular-animate.js" type="text/javascript" ></script>
@@ -91,6 +92,9 @@
         </md-menu>
         <div class="md-title">&nbsp;iMotions Data Collector</div>
         <span flex></span>
+        <md-button aria-label="Debug" class="md-icon-button" ng-click="tbctrl.toggleDebug()">
+            <i class="material-icons md-36">bug_report</i>
+        </md-button>
         <md-button aria-label="Sign In" class="md-icon-button" ng-click="tbctrl.goSignIn()">
             <i class="material-icons md-36">person</i>
         </md-button>

@@ -11,7 +11,12 @@ var iMotDataApp = angular.module("iMotDataCollector", ['ngMaterial', 'ui.router'
       .primaryPalette('yellow')
       .dark();
 })
-.controller('toolbarController', function($scope, $state, $mdDialog) {
+.controller('toolbarController', function($scope, $state, $mdDialog, UserInfo) {
+    
+    this.toggleDebug = function() {
+        UserInfo.config.debug = !UserInfo.config.debug
+    }
+    
     var originatorEvent;  // We want to keep the state of the menu here.
     
     this.openMenu = function($mdOpenMenu, event) {

@@ -5,6 +5,8 @@
 var userDb = require('./models/user_db');
 var debug  = require('debug')('dcDbRouter');
 var express = require('express');
+var fs      = require('fs')
+var path    = require('path')
 
 module.exports = function(app) {
     debug("setting up db routes.");
@@ -89,6 +91,31 @@ module.exports = function(app) {
                 res.sendStatus(200);
             })
         })
+    })
+    
+    dbRouter.get('/data', function(req, res) {
+        // Load the data into memory:
+        var jsonData = []
+        var normalizedPath = path.join(__dirname, '..', 'data')
+        fs.readdirSync(normalizedPath).forEach(function(fileName) {
+            jsonData.push_back(require(path.join(normalizedPath, fileName)))
+        })
+        
+        res.json(jsonData)
+    })
+    
+    dbRouter.get('/rwtJoyData', function(req, res) {
+        var jsonData = []
+        var normalizedPath = path.join(__dirname, '..', 'data')
+        jsonData.push(require(path.join(normalizedPath, 'Dump002_rwt_csvJoy.json')))
+        res.json(jsonData)
+    })
+    
+    dbRouter.get('/joyData', function(req, res) {
+        var jsonData = []
+        var normalizedPath = path.join(__dirname, '..', 'data')
+        jsonData = require(path.join(normalizedPath, 'joyData.json'))
+        res.json(jsonData)
     })
     
     return dbRouter;
