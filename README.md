@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Node.js Starter Overview
 
 The Node.js Starter demonstrates a simple, reusable Node.js web application based on the Express framework.
@@ -12,3 +13,7 @@ The Node.js Starter demonstrates a simple, reusable Node.js web application base
 6. Access the running app in a browser at http://localhost:6001
 
 [Install Node.js]: https://nodejs.org/en/download/
+=======
+# iMotionsDataCollector
+iMotions remote video and stimulus data collection platform
+>>>>>>> 663bb78daf6b23d25738243791329db5525f4504
