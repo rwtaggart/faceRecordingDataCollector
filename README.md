@@ -1,4 +1,4 @@
-# iMotionsDataCollector
+# Video Recording Data Collector
 Remote video and stimulus data collection platform
 
 
