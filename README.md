@@ -1,5 +1,5 @@
 # iMotionsDataCollector
-iMotions remote video and stimulus data collection platform
+Remote video and stimulus data collection platform
 
 
 ## Run the app locally
